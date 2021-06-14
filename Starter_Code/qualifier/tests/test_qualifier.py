@@ -12,9 +12,12 @@ from qualifier.filters import credit_score
 from qualifier.filters import debt_to_income
 from qualifier.filters import loan_to_value
 from qualifier.filters import max_loan_size
-
+from app import find_qualifying_loans
+from app import save_csv
 def test_save_csv():
     # @TODO: Your code here!
+    csvpath = Path('./data/output/qualifying_loans.csv')
+    assert Path(csvpath).exists()
     # Use Path from pathlib to output the test csv to ./data/output/qualifying_loans.csv
 
 def test_calculate_monthly_debt_ratio():
@@ -36,4 +39,7 @@ def test_filters():
     loan_to_value_ratio = 0.84
 
     # @TODO: Test the new save_csv code!
+    qualifying_loans = find_qualifying_loans(bank_data, current_credit_score, debt, income, loan, home_value)
+    csvpath = Path('./data/output/qualifying_loans.csv')
+    save_csv(csvpath, qualifying_loans)
     # YOUR CODE HERE!

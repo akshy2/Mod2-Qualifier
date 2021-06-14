@@ -9,6 +9,8 @@ Example:
 import sys
 import fire
 import questionary
+import csv
+
 from pathlib import Path
 
 from qualifier.utils.fileio import load_csv
@@ -101,6 +103,21 @@ def find_qualifying_loans(bank_data, credit_score, debt, income, loan, home_valu
 
     return bank_data_filtered
 
+def save_csv(csvpath, qualifying_loans):
+    """Uses the csv library to save the qualifying data as a file
+
+    Args:
+        qualifying loan data
+    """
+
+
+
+    #Writing the data to the csv file
+    with open(csvpath, "w", newline="") as csvfile:
+        csvwriter = csv.writer(csvfile, delimiter=',') #intializing the csvwriter
+        csvwriter.writerow(qualifying_loans)           #writing the loan data
+
+
 
 def save_qualifying_loans(qualifying_loans):
     """Saves the qualifying loans to a CSV file.
@@ -109,6 +126,28 @@ def save_qualifying_loans(qualifying_loans):
         qualifying_loans (list of lists): The qualifying bank loans.
     """
     # @TODO: Complete the usability dialog for savings the CSV Files.
+
+    #Ask the user whether or not they would like to save their qualifying_loans loans
+    save = questionary.confirm("Would you like to save your qualifying loans?").ask()
+
+    #if yes save the path
+    if save:
+
+        #prompt the user for what the path is
+        csvpath = questionary.text("What is the csvpath?").ask()
+        csvpath = Path(csvpath)
+
+        #Check if the path exists
+        if not csvpath.exists():
+            sys.exit(f"Can't find this path: {csvpath}")
+        else:
+            save_csv(csvpath, qualifying_loans) #save csv
+
+    #if no state the loan has not been saved
+    else:
+        print("Qualifying Loans Not Saved")
+
+
     # YOUR CODE HERE!
 
 
