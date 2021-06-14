@@ -17,4 +17,5 @@ Run the program with
 python app.py
 ```
 Follow the on screen commands to save the qualifying loans
+
 ---
